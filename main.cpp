@@ -2,6 +2,7 @@
 #include "BaseObject.h"
 #include "game_map.h"
 #include "MainObject.h"
+#include "ImpTimer.h"
 
 BaseObject g_background; //Save the infomation about the background
 bool check_upload;
@@ -94,6 +95,8 @@ void Close()
 
 int main(int argc, char* argv[])
 {
+    ImpTimer fps_timer;
+    
     //Check if init data successful
     if (InitData() == false)
     {
@@ -113,6 +116,7 @@ int main(int argc, char* argv[])
         return -1;
     game_map.LoadTiles(g_screen);
 
+    //Make main object
     MainObject p_player;
     check_upload = p_player.LoadImg("Resources/img/player_right.png", g_screen);
     if (check_upload == false)
@@ -124,6 +128,8 @@ int main(int argc, char* argv[])
     bool is_quit = false; //Check if the app is still allowed to run
     while (!is_quit)
     {
+        fps_timer.Start();
+
         //Check if press the "Exit" button
         while (SDL_PollEvent(&g_event) != 0)
         {
@@ -143,9 +149,9 @@ int main(int argc, char* argv[])
         g_background.Render(g_screen, NULL);
 
         //Show the tile map
-        game_map.DrawMap(g_screen);
         Map map_data = game_map.getMap();
 
+        //Show the main object
         p_player.SetMapXY(map_data.start_x_, map_data.start_y_);
         p_player.DoPlayer(map_data);
         p_player.Show(g_screen);
@@ -155,6 +161,15 @@ int main(int argc, char* argv[])
 
         //Reset the screen to show the background
         SDL_RenderPresent(g_screen);
+
+        int real_imp_time = fps_timer.get_ticks();
+        int time_per_frame = 1000 / FRAME_PER_SECOND; //Milisecond
+
+        if (real_imp_time < time_per_frame)
+        {
+            int delay_time = time_per_frame - real_imp_time;
+            SDL_Delay(abs(delay_time));
+        }
     }
 
     //Clear all memory and close all program

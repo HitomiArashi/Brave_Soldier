@@ -17,6 +17,8 @@ static SDL_Renderer* g_screen = NULL;   //Background of the app
 static SDL_Event g_event;			    //Action in the app
 
 //Screen
+const int FRAME_PER_SECOND = 35; //FPS
+
 const int SCREEN_WIDTH = 1280; //Width of the screen
 const int SCREEN_HEIGHT = 640; //Height of the screen
 const int SCREEN_BPP = 32;     //BPP (Bit per pixel) of the screen
@@ -34,9 +36,9 @@ const int COLOR_KEY_B = 180;   //Blue gamma of the object's background
 #define BLANK_TILE 0
 
 //Main object
-#define GRAVITY 0.1
-#define MAX_SPEED 1
-#define MOVING_SPEED 1
+#define GRAVITY 5
+#define MAX_SPEED 10
+#define MOVING_SPEED 10
 #define FRAMES 8
 
 //Variable will be used to handle input
