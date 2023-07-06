@@ -28,10 +28,28 @@ const int COLOR_KEY_G = 175;   //Green gamma of the object's background
 const int COLOR_KEY_B = 180;   //Blue gamma of the object's background
 
 //Tile map index
-
 #define TILE_SIZE 64
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
+#define BLANK_TILE 0
+
+//Main object
+#define GRAVITY 0.1
+#define MAX_SPEED 1
+#define MOVING_SPEED 1
+#define FRAMES 8
+
+//Variable will be used to handle input
+typedef struct Input
+{
+	int left_;
+	int right_;
+
+	int up_;
+	int down_;
+	
+	int jump_;
+};
 
 //Variable will be used for tile map
 typedef struct Map

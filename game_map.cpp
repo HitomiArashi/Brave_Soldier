@@ -3,13 +3,13 @@
 /**
 Read info in the file contain map
 */
-void GameMap::LoadMap(const char* name)
+bool GameMap::LoadMap(const char* name)
 {
 	FILE* fp = NULL; //Point to the file
 	fopen_s(&fp, name, "rb"); //Open the file "name"
 	if (fp == NULL) //Failed
 	{
-		return;
+		return false;
 	}
 
 	game_map_.max_x_ = 0;
@@ -44,6 +44,8 @@ void GameMap::LoadMap(const char* name)
 
 	game_map_.file_name_ = name; //Name of the file will be used
 	fclose(fp); //Close the file
+
+	return true;
 }
 
 /**
@@ -56,7 +58,7 @@ void GameMap::LoadTiles(SDL_Renderer *screen)
 
 	for (int i = 0; i < MAX_TILES; i++)
 	{
-		sprintf_s(file_img, "Resorces/map/%d.png", i); //Convert the file_img[i] point to the file
+		sprintf_s(file_img, "Resources/map good/%d.png", i); //Convert the file_img[i] point to the file
 
 		fopen_s(&fp, file_img, "rb"); //Open file
 		if (fp == NULL) //Failed

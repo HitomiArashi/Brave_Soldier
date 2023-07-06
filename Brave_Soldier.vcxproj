@@ -132,17 +132,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BackgroundApply.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CommonFunction.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackgroundApply.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="game_map.h" />
+    <ClInclude Include="MainObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
