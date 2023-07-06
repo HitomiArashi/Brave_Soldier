@@ -1,7 +1,7 @@
 #include "ImpTimer.h"
 #include "CommonFunction.h"
 
-ImpTimer::ImpTimer()
+ImpTimer::ImpTimer()		//Init the data
 {
 	start_tick_ = 0;
 	paused_tick_ = 0;
@@ -14,20 +14,20 @@ ImpTimer::~ImpTimer()
 
 }
 
-void ImpTimer::Start()
+void ImpTimer::Start()		//Start to run program
 {
 	is_started_ = true;
 	is_paused_ = false;
 	start_tick_ = SDL_GetTicks();
 }
 
-void ImpTimer::Stop()
+void ImpTimer::Stop()		//Stop to run program
 {
 	is_paused_ = false;
 	is_started_ = false;
 }
 
-void ImpTimer::Pause()
+void ImpTimer::Pause()		//Pause program
 {
 	if (is_started_ == true && is_paused_ == false)
 	{
@@ -36,7 +36,7 @@ void ImpTimer::Pause()
 	}
 }
 
-void ImpTimer::Unpaused()
+void ImpTimer::Unpaused()	//Free the pause
 {
 	if (is_paused_ == true)
 	{
@@ -46,7 +46,7 @@ void ImpTimer::Unpaused()
 	}
 }
 
-int ImpTimer::get_ticks()
+int ImpTimer::get_ticks()	//Take time (miliseconds)
 {
 	if (is_started_ == true)
 	{
@@ -63,12 +63,12 @@ int ImpTimer::get_ticks()
 	return 0;
 }
 
-bool ImpTimer::is_started()
+bool ImpTimer::is_started()	//Check if it is started
 {
 	return is_started_;
 }
 
-bool ImpTimer::is_paused()
+bool ImpTimer::is_paused()	//Check if it is paused
 {
 	return is_paused_;
 }

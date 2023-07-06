@@ -5,11 +5,11 @@
 class ImpTimer
 {
 private:
-	int start_tick_;
-	int paused_tick_;
+	int start_tick_;	//When is started
+	int paused_tick_;	//When is paused
 
-	bool is_paused_;
-	bool is_started_;
+	bool is_paused_;	//Check if it is paused
+	bool is_started_;	//Check if it is paused
 public:
 	ImpTimer();
 	~ImpTimer();

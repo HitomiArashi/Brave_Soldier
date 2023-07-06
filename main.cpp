@@ -25,7 +25,7 @@ bool InitData()
         /**
         Create a window of the app
         */
-        g_window = SDL_CreateWindow(NAME_OF_THE_APP,                                    //Title or name of the window
+        g_window = SDL_CreateWindow(NAME_OF_THE_APP,            //Title or name of the window
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,   //Pos of the window
             SCREEN_WIDTH, SCREEN_HEIGHT,                        //Size of the window
             SDL_WINDOW_SHOWN);                                  //Show the window
@@ -115,6 +115,7 @@ int main(int argc, char* argv[])
     if (check_upload == false)
         return -1;
     game_map.LoadTiles(g_screen);
+    Map map_data = game_map.getMap();
 
     //Make main object
     MainObject p_player;
@@ -148,26 +149,24 @@ int main(int argc, char* argv[])
         //Upload the background on the screen
         g_background.Render(g_screen, NULL);
 
-        //Show the tile map
-        Map map_data = game_map.getMap();
-
         //Show the main object
         p_player.SetMapXY(map_data.start_x_, map_data.start_y_);
         p_player.DoPlayer(map_data);
         p_player.Show(g_screen);
 
+        //Show the tile map
         game_map.SetMap(map_data);
         game_map.DrawMap(g_screen);
 
         //Reset the screen to show the background
         SDL_RenderPresent(g_screen);
 
-        int real_imp_time = fps_timer.get_ticks();
-        int time_per_frame = 1000 / FRAME_PER_SECOND; //Milisecond
+        int real_imp_time = fps_timer.get_ticks(); //Time runned
+        int time_per_frame = 1000 / FRAME_PER_SECOND; //Count on Milisecond
 
-        if (real_imp_time < time_per_frame)
+        if (real_imp_time < time_per_frame) //FPS Ratio
         {
-            int delay_time = time_per_frame - real_imp_time;
+            int delay_time = time_per_frame - real_imp_time; //Add delay time
             SDL_Delay(abs(delay_time));
         }
     }
