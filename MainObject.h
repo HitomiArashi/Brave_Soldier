@@ -30,6 +30,8 @@ private:
 
 	int status_;			//Current status
 
+	int comeback_time;		//Delay time when fall into chasm
+
 public:
 	MainObject();
 	~MainObject();
@@ -43,6 +45,7 @@ public:
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Show(SDL_Renderer* des);
 	void HandleInputAction(SDL_Event even, SDL_Renderer* screen);
+	void UpdateImagePlayer(SDL_Renderer* des);
 	void SetClips();
 
 	void DoPlayer(Map& map_data);

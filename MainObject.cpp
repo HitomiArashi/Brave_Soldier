@@ -13,7 +13,7 @@ MainObject::MainObject() //Init the data
 	width_frame_ = 0;
 	height_frame_ = 0;
 
-	status_ = -1;
+	status_ = WALK_RIGHT;
 
 	input_type_.left_ = 0;
 	input_type_.right_ = 0;
@@ -25,6 +25,8 @@ MainObject::MainObject() //Init the data
 
 	map_x_ = 0;
 	map_y_ = 0;
+
+	comeback_time = 0;
 }
 
 MainObject::~MainObject()
@@ -68,20 +70,13 @@ void MainObject::SetClips() //Set clip for object animation
 
 void MainObject::Show(SDL_Renderer* des) //Show object on the screen
 {
-	if (status_ == WALK_LEFT)
-	{
-		LoadImg("Resources//img//player_left.png", des); //Upload animation left-moving
-	}
-	else
-	{
-		LoadImg("Resources//img//player_right.png", des); //Upload animation right-moving (default)
-	}
+	UpdateImagePlayer(des);
 
 	if (input_type_.left_ == 1 || input_type_.right_ == 1) //Moving = Show next frame
 	{
 		frame_++;
 	}
-	else
+	else //Not moving
 	{
 		frame_ = 0;
 	}
@@ -91,14 +86,18 @@ void MainObject::Show(SDL_Renderer* des) //Show object on the screen
 		frame_ = 1;
 	}
 
-	rect_.x = x_pos_ - map_x_; //Current pos of object
-	rect_.y = y_pos_ - map_y_;
+	if (comeback_time == 0)
+	{
+		rect_.x = x_pos_ - map_x_; //Current pos of object
+		rect_.y = y_pos_ - map_y_;
 
-	SDL_Rect* current_clip = &frame_clip_[frame_]; //Set the pos for the current frame
+		SDL_Rect* current_clip = &frame_clip_[frame_]; //Set the pos for the current frame
 
-	SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ }; //Not sure wat it is used for
+		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ }; //Not sure wat it is used for
 
-	SDL_RenderCopy(des, p_object_, current_clip, &renderQuad); //Show the frame one the screen
+		SDL_RenderCopy(des, p_object_, current_clip, &renderQuad); //Show the frame one the screen
+	}
+
 }
 
 void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen) //Handle action from mouse and keyboard
@@ -112,21 +111,25 @@ void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen) //Handl
 			status_ = WALK_RIGHT;
 			input_type_.right_ = 1;
 			input_type_.left_ = 0;
+			UpdateImagePlayer(screen);
 			break;
 		case SDLK_d: //Key "D"
 			status_ = WALK_RIGHT;
 			input_type_.right_ = 1;
 			input_type_.left_ = 0;
+			UpdateImagePlayer(screen);
 			break;
 		case SDLK_LEFT: //Left arrow
 			status_ = WALK_LEFT;
 			input_type_.left_ = 1;
 			input_type_.right_ = 0;
+			UpdateImagePlayer(screen);
 			break;
 		case SDLK_a: //Key "A"
 			status_ = WALK_LEFT;
 			input_type_.left_ = 1;
 			input_type_.right_ = 0;
+			UpdateImagePlayer(screen);
 			break;
 		default:
 			break;
@@ -153,29 +156,71 @@ void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen) //Handl
 			break;
 		}
 	}
+
+	if (even.type == SDL_KEYDOWN) //Jump
+	{
+		if (even.key.keysym.sym == SDLK_SPACE) //Right mouse button
+		{
+			input_type_.jump_ = 1;
+		}
+	}
 }
 
 void MainObject::DoPlayer(Map& map_data) //Set speed for player and screen
 {
-	x_val_ = 0;
-	y_val_ += GRAVITY; //Increase dropping speed
-
-	if (y_val_ >= MAX_SPEED)
+	if (comeback_time == 0) //Still alive
 	{
-		y_val_ = MAX_SPEED; //Reach max dropping speed
-	}
+		x_val_ = 0;
+		y_val_ += GRAVITY; //Increase dropping speed
 
-	if (input_type_.left_ == 1)
-	{
-		x_val_ -= MOVING_SPEED; //Moving backward
-	}
-	else if (input_type_.right_ == 1)
-	{
-		x_val_ += MOVING_SPEED; //Moving forward
-	}
+		if (y_val_ >= MAX_SPEED)
+		{
+			y_val_ = MAX_SPEED; //Reach max dropping speed
+		}
 
-	CheckColMap(map_data); //Check collision
-	CenterEntityOnMap(map_data); //Scroll the map when object at middle
+		if (input_type_.left_ == 1)
+		{
+			x_val_ -= MOVING_SPEED; //Moving backward
+		}
+		else if (input_type_.right_ == 1)
+		{
+			x_val_ += MOVING_SPEED; //Moving forward
+		}
+
+		if (input_type_.jump_ == 1) //Jumping
+		{
+			if (on_ground_ == true)
+			{
+				y_val_ = -JUMP_VAL;
+			}
+			on_ground_ = false;
+			input_type_.jump_ = 0;
+		}
+
+		CheckColMap(map_data); //Check collision
+		CenterEntityOnMap(map_data); //Scroll the map when object at middle
+	}
+	else //Fall into chasm
+	{
+		on_ground_ = false;
+		comeback_time--;
+		if (comeback_time == 0)
+		{
+			//Go back a little
+			if (x_pos_ > 192)
+			{
+				x_pos_ -= 192; //Tile map
+			}
+			else
+			{
+				x_pos_ = 0;
+			}
+			//Respawn in the sky and stop moving
+			y_pos_ = 0;
+			x_val_ = 0;
+			y_val_ = 0;
+		}
+	}
 }
 
 void MainObject::CheckColMap(Map& map_data) //Check the collision between object and map
@@ -243,19 +288,24 @@ void MainObject::CheckColMap(Map& map_data) //Check the collision between object
 				on_ground_ = false;
 			}
 		}
+	}
 
-		//Able to move
-		x_pos_ += x_val_;
-		y_pos_ += y_val_;
+	//Able to move
+	x_pos_ += x_val_;
+	y_pos_ += y_val_;
 
-		if (x_pos_ < 0) //Out of range
-		{
-			x_pos_ = 0;
-		}
-		else if (x_pos_ + width_frame_ > map_data.max_x_)
-		{
-			x_pos_ = map_data.max_x_ - width_frame_ - 1;
-		}
+	if (x_pos_ < 0) //Out of range
+	{
+		x_pos_ = 0;
+	}
+	else if (x_pos_ + width_frame_ > map_data.max_x_)
+	{
+		x_pos_ = map_data.max_x_ - width_frame_ - 1;
+	}
+
+	if (y_pos_ > map_data.max_y_) //Fall into chasm
+	{
+		comeback_time = 60;
 	}
 }
 
@@ -280,5 +330,31 @@ void MainObject::CenterEntityOnMap(Map& map_data)
 	else if (map_data.start_y_ + SCREEN_HEIGHT >= map_data.max_y_) //Bottom of file
 	{
 		map_data.start_y_ = map_data.max_y_ - SCREEN_HEIGHT;
+	}
+}
+
+void MainObject::UpdateImagePlayer(SDL_Renderer* des)
+{
+	if (on_ground_ == true) //Moving
+	{
+		if (status_ == WALK_LEFT) //Left direct
+		{
+			LoadImg("Resources//img//player_left.png", des);
+		}
+		else if (status_ == WALK_RIGHT) //Right direct
+		{
+			LoadImg("Resources//img//player_right.png", des);
+		}
+	}
+	else //Jumping
+	{
+		if (status_ == WALK_LEFT) //Left direct
+		{
+			LoadImg("Resources//img//jum_left.png", des);
+		}
+		else if (status_ == WALK_RIGHT) //Right direct
+		{
+			LoadImg("Resources//img//jum_right.png", des);
+		}
 	}
 }

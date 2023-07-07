@@ -36,6 +36,7 @@ const int COLOR_KEY_B = 180;   //Blue gamma of the object's background
 #define BLANK_TILE 0
 
 //Main object
+#define JUMP_VAL 45
 #define GRAVITY 5
 #define MAX_SPEED 10
 #define MOVING_SPEED 10

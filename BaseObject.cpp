@@ -23,6 +23,9 @@ BaseObject::~BaseObject()
 
 bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
+	//Free "trash" memory
+	Free();
+	
 	SDL_Texture* new_texture = NULL; //Reset the object image
 
 	SDL_Surface* load_surface = IMG_Load(path.c_str()); //Upload the object image
