@@ -138,9 +138,11 @@
     <ClCompile Include="ImpTimer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainObject.cpp" />
+    <ClCompile Include="BulletObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BulletObject.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="game_map.h" />
     <ClInclude Include="ImpTimer.h" />

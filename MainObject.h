@@ -2,12 +2,17 @@
 #ifndef MAINOBJECT_H_
 #define MAINOBJECT_H_
 
+#include <vector>
+
 #include "CommonFunction.h"
 #include "BaseObject.h"
+#include "BulletObject.h"
 
 class MainObject : public BaseObject
 {
 private:
+	std::vector <BulletObject*> p_bullet_list_;
+
 	float x_val_;			//Moving speed
 	float y_val_;
 
@@ -52,6 +57,16 @@ public:
 	void CheckColMap(Map& map_data);
 	void SetMapXY(const int map_x, const int map_y);
 	void CenterEntityOnMap(Map& map_data);
+
+	void set_bullet_list(std::vector <BulletObject*> bullet_list)
+	{
+		p_bullet_list_ = bullet_list;
+	}
+	std::vector <BulletObject*> get_bullet_list() const
+	{
+		return p_bullet_list_;
+	}
+	void HandleBullet(SDL_Renderer* des);
 };
 
 #endif

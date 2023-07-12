@@ -164,6 +164,61 @@ void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen) //Handl
 			input_type_.jump_ = 1;
 		}
 	}
+
+	if (even.type == SDL_MOUSEBUTTONDOWN) //Shoot bullet
+	{
+		if (even.button.button == SDL_BUTTON_LEFT)
+		{
+			BulletObject* p_bullet = new BulletObject();
+			p_bullet->Set_bullet_type(BulletObject::LASER_BULLET);
+			p_bullet->LoadImgBullet(screen);
+
+			if (status_ == WALK_LEFT)
+			{
+				p_bullet->Set_bullet_dir(BulletObject::DIR_LEFT);
+				p_bullet->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.3);
+
+			}
+			else if (status_ == WALK_RIGHT)
+			{
+				p_bullet->Set_bullet_dir(BulletObject::DIR_RIGHT);
+				p_bullet->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.3);
+
+			}
+
+			p_bullet->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.3);
+			p_bullet->Set_x_val(20);
+			p_bullet->Set_y_val(20);
+			p_bullet->Set_is_move(true);
+
+			p_bullet_list_.push_back(p_bullet);
+		}
+	}
+}
+
+void MainObject::HandleBullet(SDL_Renderer* des)
+{
+	for (int i = 0; i < p_bullet_list_.size(); i++)
+	{
+		BulletObject* p_bullet = p_bullet_list_.at(i);
+		if (p_bullet != NULL)
+		{
+			if (p_bullet->Get_is_move() == true)
+			{
+				p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+				p_bullet->Render(des);
+			}
+		}
+		else
+		{
+			p_bullet_list_.erase(p_bullet_list_.begin() + i);
+			if (p_bullet != NULL)
+			{
+				delete p_bullet;
+				p_bullet = NULL;
+			}
+		}
+	}
 }
 
 void MainObject::DoPlayer(Map& map_data) //Set speed for player and screen
