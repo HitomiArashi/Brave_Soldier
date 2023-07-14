@@ -1,6 +1,6 @@
 #pragma once
 #ifndef COMMON_FUNCTION_H_
-#define COMMON_FUNCTION_H
+#define COMMON_FUNCTION_H_
 
 #include <Windows.h>
 #include <SDL.h>
@@ -41,6 +41,17 @@ const int COLOR_KEY_B = 180;   //Blue gamma of the object's background
 #define MAX_SPEED 10
 #define MOVING_SPEED 10
 #define FRAMES 8
+
+//Suport stuff
+#define STATE_SP 4
+
+//Threat object
+#define THREAT_AMOUNT 20
+#define THREAT_ORIGINAL 700
+#define THREAT_DISTANCE 1200
+#define THREAT_GRAVITY 5
+#define THREAT_MAX_SPEED 10
+#define THREAT_SPEED 5
 
 //Variable will be used to handle input
 typedef struct Input

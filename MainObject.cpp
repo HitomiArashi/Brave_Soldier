@@ -27,6 +27,8 @@ MainObject::MainObject() //Init the data
 	map_y_ = 0;
 
 	comeback_time = 0;
+
+	money_cnt = 0;
 }
 
 MainObject::~MainObject()
@@ -278,6 +280,11 @@ void MainObject::DoPlayer(Map& map_data) //Set speed for player and screen
 	}
 }
 
+void MainObject::Increase_Money()
+{
+	money_cnt++;
+}
+
 void MainObject::CheckColMap(Map& map_data) //Check the collision between object and map
 {
 	int x1 = 0, x2 = 0; //Pos for corner of the part of screen to show
@@ -293,10 +300,19 @@ void MainObject::CheckColMap(Map& map_data) //Check the collision between object
 	y2 = (y_pos_ + height_min - 1) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 <= MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y) //Still in range
-	{
+	{		
 		if (x_val_ > 0) //Moving to right direct
 		{
-			if (map_data.tile[y1][x2] != BLANK_TILE || map_data.tile[y2][x2] != BLANK_TILE) //Collided
+			int val1 = map_data.tile[y1][x2];
+			int val2 = map_data.tile[y2][x2];
+
+			if (val1 == STATE_SP || val2 == STATE_SP)
+			{
+				map_data.tile[y1][x2] = 0;
+				map_data.tile[y2][x2] = 0;
+				Increase_Money();
+			}
+			else if (val1 != BLANK_TILE || val2 != BLANK_TILE) //Collided
 			{
 				x_pos_ = x2 * TILE_SIZE;
 				x_pos_ -= width_frame_ + 1;
@@ -305,7 +321,15 @@ void MainObject::CheckColMap(Map& map_data) //Check the collision between object
 		}
 		else if (x_val_ < 0) // Moving to left direct
 		{
-			if (map_data.tile[y1][x1] != BLANK_TILE || map_data.tile[y2][x1] != BLANK_TILE) //Collid
+			int val1 = map_data.tile[y1][x1];
+			int val2 = map_data.tile[y2][x1];
+			if (val1 == STATE_SP || val2 == STATE_SP)
+			{
+				map_data.tile[y1][x1] = 0;
+				map_data.tile[y2][x1] = 0;
+				Increase_Money();
+			}
+			else if (val1 != BLANK_TILE || val2 != BLANK_TILE) //Collided
 			{
 				x_pos_ = (x1 + 1) * TILE_SIZE;
 				x_val_ = 0;
@@ -326,7 +350,15 @@ void MainObject::CheckColMap(Map& map_data) //Check the collision between object
 	{
 		if (y_val_ > 0) //Go down (fall)
 		{
-			if (map_data.tile[y2][x1] != BLANK_TILE || map_data.tile[y2][x2] != BLANK_TILE) //Collid
+			int val1 = map_data.tile[y2][x1];
+			int val2 = map_data.tile[y2][x2];
+			if (val1 == STATE_SP || val2 == STATE_SP)
+			{
+				map_data.tile[y2][x1] = 0;
+				map_data.tile[y2][x2] = 0;
+				Increase_Money();
+			}
+			else if (val1 != BLANK_TILE || val2 != BLANK_TILE) //Collid
 			{
 				y_pos_ = y2 * TILE_SIZE;
 				y_pos_ -= height_frame_ + 1;
@@ -336,11 +368,20 @@ void MainObject::CheckColMap(Map& map_data) //Check the collision between object
 		}
 		else if (y_val_ < 0) //Go up (jump)
 		{
-			if (map_data.tile[y1][x1] != BLANK_TILE || map_data.tile[y2][x1] != BLANK_TILE) //Collid
+			int val1 = map_data.tile[y1][x1];
+			int val2 = map_data.tile[y2][x1];
+			if (val1 == STATE_SP || val2 == STATE_SP)
 			{
-				y_pos_ = (y1 + 1) * TILE_SIZE;
+				map_data.tile[y1][x1] = 0;
+				map_data.tile[y2][x1] = 0;
+				Increase_Money();
+			}
+			else if (val1 != BLANK_TILE || val2 != BLANK_TILE) //Collid
+			{
+				y_pos_ = y2 * TILE_SIZE;
+				y_pos_ -= height_frame_ + 1;
 				y_val_ = 0;
-				on_ground_ = false;
+				on_ground_ = true;
 			}
 		}
 	}

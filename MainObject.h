@@ -11,6 +11,8 @@
 class MainObject : public BaseObject
 {
 private:
+	int money_cnt;
+
 	std::vector <BulletObject*> p_bullet_list_;
 
 	float x_val_;			//Moving speed
@@ -67,6 +69,8 @@ public:
 		return p_bullet_list_;
 	}
 	void HandleBullet(SDL_Renderer* des);
+
+	void Increase_Money();
 };
 
 #endif
