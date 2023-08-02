@@ -139,7 +139,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainObject.cpp" />
     <ClCompile Include="BulletObject.cpp" />
-    <ClCompile Include="ThreatObject.cpp" />
+    <ClCompile Include="ThreatObjects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />

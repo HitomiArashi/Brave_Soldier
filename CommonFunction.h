@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#define NAME_OF_THE_APP "Brave Soldier" //Name of the app
+const std::string NAME_OF_THE_APP = "Brave Soldier"; //Name of the app
 
 static SDL_Window* g_window = NULL;     //Console of the app
 static SDL_Renderer* g_screen = NULL;   //Background of the app
@@ -30,28 +30,20 @@ const int COLOR_KEY_G = 175;   //Green gamma of the object's background
 const int COLOR_KEY_B = 180;   //Blue gamma of the object's background
 
 //Tile map index
-#define TILE_SIZE 64
-#define MAX_MAP_X 400
-#define MAX_MAP_Y 10
-#define BLANK_TILE 0
+const int TILE_SIZE = 64;
+const int MAX_MAP_X = 400;
+const int MAX_MAP_Y = 10;
+const int BLANK_TILE = 0;
 
 //Main object
-#define JUMP_VAL 45
-#define GRAVITY 5
-#define MAX_SPEED 10
-#define MOVING_SPEED 10
-#define FRAMES 8
+const int JUMP_VAL = 45;
+const int GRAVITY = 5;
+const int MAX_SPEED = 10;
+const int MOVING_SPEED = 10;
+const int FRAMES = 8;
 
 //Suport stuff
-#define STATE_SP 4
-
-//Threat object
-#define THREAT_AMOUNT 20
-#define THREAT_ORIGINAL 700
-#define THREAT_DISTANCE 1200
-#define THREAT_GRAVITY 5
-#define THREAT_MAX_SPEED 10
-#define THREAT_SPEED 5
+const int STATE_SP = 4;
 
 //Variable will be used to handle input
 typedef struct Input

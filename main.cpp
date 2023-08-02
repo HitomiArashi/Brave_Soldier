@@ -3,7 +3,6 @@
 #include "game_map.h"
 #include "MainObject.h"
 #include "ImpTimer.h"
-#include "ThreatObject.h"
 
 BaseObject g_background; //Save the infomation about the background
 bool check_upload;
@@ -26,7 +25,7 @@ bool InitData()
         /**
         Create a window of the app
         */
-        g_window = SDL_CreateWindow(NAME_OF_THE_APP,            //Title or name of the window
+        g_window = SDL_CreateWindow(NAME_OF_THE_APP.c_str(),            //Title or name of the window
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,   //Pos of the window
             SCREEN_WIDTH, SCREEN_HEIGHT,                        //Size of the window
             SDL_WINDOW_SHOWN);                                  //Show the window
@@ -94,49 +93,6 @@ void Close()
     SDL_Quit();
 }
 
-std::vector <ThreatObject*> MakeThreatList()
-{
-    std::vector<ThreatObject*> list;
-
-    ThreatObject* dynamic_threat = new ThreatObject[20];
-    for (int i = 0; i < THREAT_AMOUNT; i++)
-    {
-        ThreatObject* p_threat = (dynamic_threat + i);
-        if (p_threat != NULL)
-        {
-            p_threat->LoadImg("Resources//img//threat_left.png", g_screen);
-            p_threat->SetClip();
-            p_threat->set_x_pos(500 + i * 500);
-            p_threat->set_y_pos(200);
-            p_threat->set_type_move(ThreatObject::MOVE_IN_SPACE_THREAT);
-            p_threat->set_input_left(1);
-
-            int pos1 = p_threat->get_x_pos() - 60;
-            int pos2 = p_threat->get_y_pos() + 60;
-            p_threat->set_animationPos(pos1, pos2);
-
-            list.push_back(p_threat);
-        }
-    }
-
-    ThreatObject* threat_objs = new ThreatObject[THREAT_AMOUNT];
-    for (int i = 0; i < THREAT_AMOUNT; i++)
-    {
-        ThreatObject* p_threat = (threat_objs + 1);
-        if (p_threat != NULL)
-        {
-            p_threat->LoadImg("Resources//img//threat_level.png", g_screen);
-            p_threat->SetClip();
-            p_threat->set_x_pos(THREAT_ORIGINAL + i * THREAT_DISTANCE);
-            p_threat->set_y_pos(250);
-            p_threat->set_type_move(ThreatObject::STATIC_THREAT);
-            p_threat->set_input_left(0);
-
-            list.push_back(p_threat);
-        }
-    }
-    return list;
-}
 
 int main(int argc, char* argv[])
 {
@@ -171,9 +127,6 @@ int main(int argc, char* argv[])
     }
     p_player.SetClips();
 
-    //Make threat object
-    std::vector<ThreatObject*> threat = MakeThreatList();
-
     bool is_quit = false; //Check if the app is still allowed to run
     while (!is_quit)
     {
@@ -206,17 +159,6 @@ int main(int argc, char* argv[])
         //Show the tile map
         game_map.SetMap(map_data);
         game_map.DrawMap(g_screen);
-
-        for (int i = 0; i < threat.size(); i++)
-        {
-            ThreatObject* p_threat = threat.at(i);
-            if (p_threat != NULL)
-            {
-                p_threat->SetMapXY(map_data.start_x_, map_data.start_y_);
-                p_threat->HandleMove(map_data);
-                p_threat->Show(g_screen);
-            }
-        }
 
         //Reset the screen to show the background
         SDL_RenderPresent(g_screen);

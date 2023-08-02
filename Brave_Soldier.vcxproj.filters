@@ -36,7 +36,7 @@
     <ClCompile Include="BulletObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ThreatObject.cpp">
+    <ClCompile Include="ThreatObjects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
