@@ -3,6 +3,7 @@
 #include "game_map.h"
 #include "MainObject.h"
 #include "ImpTimer.h"
+#include "ThreatObject.h"
 
 BaseObject g_background; //Save the infomation about the background
 bool check_upload;
@@ -93,6 +94,28 @@ void Close()
     SDL_Quit();
 }
 
+std::vector<ThreatsObject*> MakeThreadList()
+{
+    std::vector<ThreatsObject*> list_threats;
+
+    ThreatsObject* threats_obj = new ThreatsObject[20];
+    for (int i = 0; i < 20; i ++)
+    {
+        ThreatsObject* p_threat = (threats_obj + i);
+        if (p_threat != NULL)
+        {
+            p_threat->LoadImg("Resouces//img//threat_lvl.png", g_screen);
+            p_threat->SetClip();
+            p_threat->set_x_pos(700 + i * 1200);
+            p_threat->set_y_pos(250);
+
+            list_threats.push_back(p_threat);
+        }
+    }
+
+    return list_threats;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -127,6 +150,8 @@ int main(int argc, char* argv[])
     }
     p_player.SetClips();
 
+    std::vector<ThreatsObject*> threats_list = MakeThreadList();
+
     bool is_quit = false; //Check if the app is still allowed to run
     while (!is_quit)
     {
@@ -159,6 +184,17 @@ int main(int argc, char* argv[])
         //Show the tile map
         game_map.SetMap(map_data);
         game_map.DrawMap(g_screen);
+
+        for (int i = 0; i < threats_list.size(); i ++)
+        {
+            ThreatsObject* p_threat = threats_list.at(i);
+            if (p_threat != NULL)
+            {
+                p_threat->SetMapXY(map_data.start_x_, map_data.start_y_);
+                p_threat->DoPlayer(map_data);
+                p_threat->Show(g_screen);
+            }
+        }
 
         //Reset the screen to show the background
         SDL_RenderPresent(g_screen);
