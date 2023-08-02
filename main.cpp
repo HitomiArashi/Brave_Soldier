@@ -213,7 +213,6 @@ int main(int argc, char* argv[])
             if (p_threat != NULL)
             {
                 p_threat->SetMapXY(map_data.start_x_, map_data.start_y_);
-                p_threat->ImpMoveType(g_screen);
                 p_threat->HandleMove(map_data);
                 p_threat->Show(g_screen);
             }
