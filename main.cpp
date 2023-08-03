@@ -6,11 +6,14 @@
 #include "ThreatObject.h"
 
 BaseObject g_background; //Save the infomation about the background
-bool check_upload;
+bool check_upload; //Check the image upload process
 
 /**
-    Initialize the data
-    */
+ * @brief Initialize the data
+ *
+ * @return true
+ * @return false
+ */
 bool InitData()
 {
     bool success = true; //Check if initialization is successful
@@ -24,9 +27,10 @@ bool InitData()
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); //Set the ratio of the quality
 
         /**
-        Create a window of the app
-        */
-        g_window = SDL_CreateWindow(NAME_OF_THE_APP.c_str(),            //Title or name of the window
+         * @brief Create the window of the app
+         *
+         */
+        g_window = SDL_CreateWindow(NAME_OF_THE_APP.c_str(),    //Title or name of the window
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,   //Pos of the window
             SCREEN_WIDTH, SCREEN_HEIGHT,                        //Size of the window
             SDL_WINDOW_SHOWN);                                  //Show the window
@@ -38,8 +42,9 @@ bool InitData()
         else
         {
             /**
-            Creat the background of the app
-            */
+             * @brief Creat the background of the app
+             *
+             */
             g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
             if (g_screen == NULL) //Create failed
             {
@@ -48,8 +53,9 @@ bool InitData()
             else
             {
                 /**
-                Set background color when first upload
-                */
+                 * @brief Construct a new sdl setrenderdrawcolor object
+                 *
+                 */
                 SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
                 int imgFlags = IMG_INIT_PNG; //Initialize the format of the image will be uploaded
                 if (!(IMG_Init(imgFlags)) && imgFlags) //Load failed
@@ -63,8 +69,11 @@ bool InitData()
 }
 
 /**
-Upload the background on window
-*/
+ * @brief Upload the background on window
+ *
+ * @return true
+ * @return false
+ */
 bool LoadBackground()
 {
     bool ret = g_background.LoadImg("Resources/img/background.png", g_screen);
@@ -78,6 +87,10 @@ bool LoadBackground()
     }
 }
 
+/**
+ * @brief Remove the memory
+ *
+ */
 void Close()
 {
     //Destroy the background and screen
@@ -94,6 +107,11 @@ void Close()
     SDL_Quit();
 }
 
+/**
+ * @brief Make new group of threat objects
+ *
+ * @return std::vector<ThreatsObject*>
+ */
 std::vector<ThreatsObject*> MakeThreadList()
 {
     std::vector<ThreatsObject*> list_threats;
@@ -116,11 +134,17 @@ std::vector<ThreatsObject*> MakeThreadList()
     return list_threats;
 }
 
-
+/**
+ * @brief Main code running
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char* argv[])
 {
     ImpTimer fps_timer;
-    
+
     //Check if init data successful
     if (InitData() == false)
     {
@@ -150,6 +174,7 @@ int main(int argc, char* argv[])
     }
     p_player.SetClips();
 
+    //Make threat objects
     std::vector<ThreatsObject*> threats_list = MakeThreadList();
 
     bool is_quit = false; //Check if the app is still allowed to run
@@ -185,6 +210,7 @@ int main(int argc, char* argv[])
         game_map.SetMap(map_data);
         game_map.DrawMap(g_screen);
 
+        //Show the threat objects
         for (int i = 0; i < threats_list.size(); i ++)
         {
             ThreatsObject* p_threat = threats_list.at(i);

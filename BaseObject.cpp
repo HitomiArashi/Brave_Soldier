@@ -1,8 +1,9 @@
 #include "BaseObject.h"
 
 /**
-Information initialization of the object
-*/
+ * @brief Construct a new Base Object:: Base Object object
+ * 
+ */
 BaseObject::BaseObject()
 {
 	p_object_ = NULL;
@@ -14,13 +15,22 @@ BaseObject::BaseObject()
 }
 
 /**
-Destroy the object to save data
-*/
+ * @brief Destroy the Base Object:: Base Object object
+ * 
+ */
 BaseObject::~BaseObject()
 {
 	Free();
 }
 
+/**
+ * @brief Upload object image
+ * 
+ * @param path 
+ * @param screen 
+ * @return true 
+ * @return false 
+ */
 bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
 	//Free "trash" memory
@@ -48,6 +58,12 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 	return p_object_ != NULL;
 }
 
+/**
+ * @brief Show the object on the screen
+ * 
+ * @param des
+ * @param clip
+ */
 void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip /* = NULL */)
 {
 	SDL_Rect renderquad = { rect_.x, rect_.y, rect_.w, rect_.h }; //Position and size of the image
@@ -55,6 +71,10 @@ void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip /* = NULL */)
 	SDL_RenderCopy(des, p_object_, clip, &renderquad); //Show the object on the screen
 }
 
+/**
+ * @brief Free the memory
+ * 
+ */
 void BaseObject::Free()
 {
 	if (p_object_ != NULL)

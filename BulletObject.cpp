@@ -1,5 +1,9 @@
 #include "BulletObject.h"
 
+/**
+ * @brief Construct a new Bullet Object:: Bullet Object object
+ * 
+ */
 BulletObject::BulletObject()
 {
 	x_val_ = 0;
@@ -10,11 +14,20 @@ BulletObject::BulletObject()
 	bullet_type_ = SPHERE_BULLET;
 }
 
+/**
+ * @brief Destroy the Bullet Object:: Bullet Object object
+ * 
+ */
 BulletObject::~BulletObject()
 {
 
 }
 
+/**
+ * @brief Upload bullet image
+ * 
+ * @param des 
+ */
 void BulletObject::LoadImgBullet(SDL_Renderer* des)
 {
 	if (bullet_type_ == SPHERE_BULLET)
@@ -27,6 +40,12 @@ void BulletObject::LoadImgBullet(SDL_Renderer* des)
 	}
 }
 
+/**
+ * @brief Handle bullet movement
+ * 
+ * @param x_border 
+ * @param y_border 
+ */
 void BulletObject::HandleMove(const int& x_border, const int& y_border)
 {
 	if (bullet_dir_ == DIR_RIGHT)

@@ -1,6 +1,10 @@
 #include"MainObject.h"
 
-MainObject::MainObject() //Init the data
+/**
+ * @brief Construct a new Main Object:: Main Object object
+ * 
+ */
+MainObject::MainObject()
 {
 	frame_ = 0;
 
@@ -31,12 +35,24 @@ MainObject::MainObject() //Init the data
 	money_cnt = 0;
 }
 
+/**
+ * @brief Destroy the Main Object:: Main Object object
+ * 
+ */
 MainObject::~MainObject()
 {
 
 }
 
-bool MainObject::LoadImg(std::string path, SDL_Renderer* screen) //Upload the object image
+/**
+ * @brief Upload the object image
+ * 
+ * @param path 
+ * @param screen 
+ * @return true 
+ * @return false 
+ */
+bool MainObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
 	bool ret = BaseObject::LoadImg(path, screen);
 
@@ -49,13 +65,23 @@ bool MainObject::LoadImg(std::string path, SDL_Renderer* screen) //Upload the ob
 	return ret;
 }
 
-void MainObject::SetMapXY(const int map_x, const int map_y) //Set screen start pos
+/**
+ * @brief Set screen start pos
+ * 
+ * @param map_x 
+ * @param map_y 
+ */
+void MainObject::SetMapXY(const int map_x, const int map_y)
 {
 	map_x_ = map_x;
 	map_y_ = map_y;
 }
 
-void MainObject::SetClips() //Set clip for object animation
+/**
+ * @brief Set clip for object animation
+ * 
+ */
+void MainObject::SetClips()
 {
 	if (width_frame_ > 0 && height_frame_ > 0)
 	{
@@ -70,7 +96,12 @@ void MainObject::SetClips() //Set clip for object animation
 	}
 }
 
-void MainObject::Show(SDL_Renderer* des) //Show object on the screen
+/**
+ * @brief Show object on the screen
+ * 
+ * @param des 
+ */
+void MainObject::Show(SDL_Renderer* des)
 {
 	UpdateImagePlayer(des);
 
@@ -102,7 +133,13 @@ void MainObject::Show(SDL_Renderer* des) //Show object on the screen
 
 }
 
-void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen) //Handle action from mouse and keyboard
+/**
+ * @brief Handle action from mouse and keyboard
+ * 
+ * @param even 
+ * @param screen 
+ */
+void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen)
 {
 	//Moving
 	if (even.type == SDL_KEYDOWN)
@@ -172,32 +209,37 @@ void MainObject::HandleInputAction(SDL_Event even, SDL_Renderer* screen) //Handl
 		if (even.button.button == SDL_BUTTON_LEFT)
 		{
 			BulletObject* p_bullet = new BulletObject();
-			p_bullet->Set_bullet_type(BulletObject::LASER_BULLET);
+			p_bullet->set_bullet_type(BulletObject::LASER_BULLET);
 			p_bullet->LoadImgBullet(screen);
 
 			if (status_ == WALK_LEFT)
 			{
-				p_bullet->Set_bullet_dir(BulletObject::DIR_LEFT);
+				p_bullet->set_bullet_dir(BulletObject::DIR_LEFT);
 				p_bullet->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.3);
 
 			}
 			else if (status_ == WALK_RIGHT)
 			{
-				p_bullet->Set_bullet_dir(BulletObject::DIR_RIGHT);
+				p_bullet->set_bullet_dir(BulletObject::DIR_RIGHT);
 				p_bullet->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.3);
 
 			}
 
 			p_bullet->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.3);
-			p_bullet->Set_x_val(20);
-			p_bullet->Set_y_val(20);
-			p_bullet->Set_is_move(true);
+			p_bullet->set_x_val(20);
+			p_bullet->set_y_val(20);
+			p_bullet->set_is_move(true);
 
 			p_bullet_list_.push_back(p_bullet);
 		}
 	}
 }
 
+/**
+ * @brief Handle the action of shoot bullet
+ * 
+ * @param des 
+ */
 void MainObject::HandleBullet(SDL_Renderer* des)
 {
 	for (int i = 0; i < p_bullet_list_.size(); i++)
@@ -205,7 +247,7 @@ void MainObject::HandleBullet(SDL_Renderer* des)
 		BulletObject* p_bullet = p_bullet_list_.at(i);
 		if (p_bullet != NULL)
 		{
-			if (p_bullet->Get_is_move() == true)
+			if (p_bullet->get_is_move() == true)
 			{
 				p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
 				p_bullet->Render(des);
@@ -223,7 +265,12 @@ void MainObject::HandleBullet(SDL_Renderer* des)
 	}
 }
 
-void MainObject::DoPlayer(Map& map_data) //Set speed for player and screen
+/**
+ * @brief Handle special situation
+ * 
+ * @param map_data 
+ */
+void MainObject::DoPlayer(Map& map_data)
 {
 	if (comeback_time == 0) //Still alive
 	{
@@ -280,12 +327,21 @@ void MainObject::DoPlayer(Map& map_data) //Set speed for player and screen
 	}
 }
 
+/**
+ * @brief Increase point when collect money
+ * 
+ */
 void MainObject::Increase_Money()
 {
 	money_cnt++;
 }
 
-void MainObject::CheckColMap(Map& map_data) //Check the collision between object and map
+/**
+ * @brief Check the collision between object and map
+ * 
+ * @param map_data 
+ */
+void MainObject::CheckColMap(Map& map_data)
 {
 	int x1 = 0, x2 = 0; //Pos for corner of the part of screen to show
 	int y1 = 0, y2 = 0;
@@ -405,7 +461,11 @@ void MainObject::CheckColMap(Map& map_data) //Check the collision between object
 	}
 }
 
-//Keep the object in the middle of the screen
+/**
+ * @brief Keep the object in the middle of the screen
+ * 
+ * @param map_data 
+ */
 void MainObject::CenterEntityOnMap(Map& map_data)
 {
 	map_data.start_x_ = x_pos_ - (SCREEN_WIDTH / 2); //Update the x-pos to start
@@ -429,6 +489,11 @@ void MainObject::CenterEntityOnMap(Map& map_data)
 	}
 }
 
+/**
+ * @brief Change object animation dua to situation
+ * 
+ * @param des 
+ */
 void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 {
 	if (on_ground_ == true) //Moving

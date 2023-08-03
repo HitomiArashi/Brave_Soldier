@@ -2,6 +2,11 @@
 #ifndef IMP_TIMER_H_
 #define IMP_TIMER_H_
 
+/**
+ * @brief New data type: ImpTimer
+ * 
+ * @note Counting the time of the gameplay
+ */
 class ImpTimer
 {
 private:

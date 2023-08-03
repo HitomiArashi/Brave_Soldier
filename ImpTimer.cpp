@@ -1,7 +1,11 @@
 #include "ImpTimer.h"
 #include "CommonFunction.h"
 
-ImpTimer::ImpTimer()		//Init the data
+/**
+ * @brief Construct a new Imp Timer:: Imp Timer object
+ * 
+ */
+ImpTimer::ImpTimer()
 {
 	start_tick_ = 0;
 	paused_tick_ = 0;
@@ -9,25 +13,41 @@ ImpTimer::ImpTimer()		//Init the data
 	is_started_ = false;
 }
 
+/**
+ * @brief Destroy the Imp Timer:: Imp Timer object
+ * 
+ */
 ImpTimer::~ImpTimer()
 {
 
 }
 
-void ImpTimer::Start()		//Start to run program
+/**
+ * @brief Start to run program
+ * 
+ */
+void ImpTimer::Start()
 {
 	is_started_ = true;
 	is_paused_ = false;
 	start_tick_ = SDL_GetTicks();
 }
 
-void ImpTimer::Stop()		//Stop to run program
+/**
+ * @brief Stop to run program
+ * 
+ */
+void ImpTimer::Stop()
 {
 	is_paused_ = false;
 	is_started_ = false;
 }
 
-void ImpTimer::Pause()		//Pause program
+/**
+ * @brief Pause program
+ * 
+ */
+void ImpTimer::Pause()
 {
 	if (is_started_ == true && is_paused_ == false)
 	{
@@ -36,7 +56,11 @@ void ImpTimer::Pause()		//Pause program
 	}
 }
 
-void ImpTimer::Unpaused()	//Free the pause
+/**
+ * @brief Free the pause
+ * 
+ */
+void ImpTimer::Unpaused()
 {
 	if (is_paused_ == true)
 	{
@@ -46,7 +70,12 @@ void ImpTimer::Unpaused()	//Free the pause
 	}
 }
 
-int ImpTimer::get_ticks()	//Take time (miliseconds)
+/**
+ * @brief Take time (miliseconds)
+ * 
+ * @return int 
+ */
+int ImpTimer::get_ticks()
 {
 	if (is_started_ == true)
 	{
@@ -63,12 +92,24 @@ int ImpTimer::get_ticks()	//Take time (miliseconds)
 	return 0;
 }
 
-bool ImpTimer::is_started()	//Check if it is started
+/**
+ * @brief Check if it is started
+ * 
+ * @return true 
+ * @return false 
+ */
+bool ImpTimer::is_started()
 {
 	return is_started_;
 }
 
-bool ImpTimer::is_paused()	//Check if it is paused
+/**
+ * @brief Check if it is paused
+ * 
+ * @return true 
+ * @return false 
+ */
+bool ImpTimer::is_paused()
 {
 	return is_paused_;
 }

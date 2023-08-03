@@ -7,7 +7,11 @@
 
 #define MAX_TILES 20
 
-//Take the LoadImg and Render from BaseObject only
+/**
+ * @brief New data type: TileMat
+ * 
+ * @note Take the LoadImg and Render from BaseObject only
+ */
 class TileMat : public BaseObject
 {
 public:
@@ -21,7 +25,11 @@ public:
 	}
 };
 
-//Map for all gameplay
+/**
+ * @brief New data type: GameMap
+ * 
+ * @note Map for all gameplay
+ */
 class GameMap
 {
 private:
@@ -40,9 +48,20 @@ public:
 	bool LoadMap(const char* name);
 	void LoadTiles(SDL_Renderer* screen);
 	void DrawMap(SDL_Renderer* screen);
+
+	/**
+	 * @brief Set the Map object
+	 * 
+	 * @param map_data 
+	 */
 	void SetMap(Map& map_data) {
 		game_map_ = map_data;
 	};
+	/**
+	 * @brief Get the Map object
+	 * 
+	 * @return Map 
+	 */
 	Map getMap() const {
 		return game_map_;
 	};

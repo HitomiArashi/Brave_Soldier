@@ -8,6 +8,11 @@
 #include "BaseObject.h"
 #include "BulletObject.h"
 
+/**
+ * @brief New data type: MainObject
+ * 
+ * @note Handle for main object/character
+ */
 class MainObject : public BaseObject
 {
 private:
@@ -43,11 +48,34 @@ public:
 	MainObject();
 	~MainObject();
 
+	/**
+	 * @brief Walking type of the object
+	 * 
+	 */
 	enum WalkType
 	{
 		WALK_RIGHT = 0,
 		WALK_LEFT = 1
 	};
+
+	/**
+	 * @brief Set the bullet list object
+	 * 
+	 * @param bullet_list 
+	 */
+	void set_bullet_list(std::vector <BulletObject*> bullet_list)
+	{
+		p_bullet_list_ = bullet_list;
+	}
+	/**
+	 * @brief Get the bullet list object
+	 * 
+	 * @return std::vector <BulletObject*> 
+	 */
+	std::vector <BulletObject*> get_bullet_list() const
+	{
+		return p_bullet_list_;
+	}
 
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Show(SDL_Renderer* des);
@@ -60,14 +88,6 @@ public:
 	void SetMapXY(const int map_x, const int map_y);
 	void CenterEntityOnMap(Map& map_data);
 
-	void set_bullet_list(std::vector <BulletObject*> bullet_list)
-	{
-		p_bullet_list_ = bullet_list;
-	}
-	std::vector <BulletObject*> get_bullet_list() const
-	{
-		return p_bullet_list_;
-	}
 	void HandleBullet(SDL_Renderer* des);
 
 	void Increase_Money();

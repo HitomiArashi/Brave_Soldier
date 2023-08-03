@@ -16,36 +16,63 @@ static SDL_Window* g_window = NULL;     //Console of the app
 static SDL_Renderer* g_screen = NULL;   //Background of the app
 static SDL_Event g_event;			    //Action in the app
 
-//Screen
-const int FRAME_PER_SECOND = 35; //FPS
+/**
+ * @brief Some static information about screen
+ * 
+ */
+enum Screen
+{
+	FRAME_PER_SECOND = 35, //FPS
 
-const int SCREEN_WIDTH = 1280; //Width of the screen
-const int SCREEN_HEIGHT = 640; //Height of the screen
-const int SCREEN_BPP = 32;     //BPP (Bit per pixel) of the screen
+	SCREEN_WIDTH = 1280, //Width of the screen
+	SCREEN_HEIGHT = 640, //Height of the screen
+	SCREEN_BPP = 32,	 //BPP (Bit per pixel) of the screen
 
-const int RENDER_DRAW_COLOR = 0xFF; //Background color when upload
+	RENDER_DRAW_COLOR = 0xFF, //Background color when upload
 
-const int COLOR_KEY_R = 167;   //Red gamma of the object's background
-const int COLOR_KEY_G = 175;   //Green gamma of the object's background
-const int COLOR_KEY_B = 180;   //Blue gamma of the object's background
+	COLOR_KEY_R = 167,	//Red gamma of the object's background
+	COLOR_KEY_G = 175,	//Green gamma of the object's background
+	COLOR_KEY_B = 180,	//Blue gamma of the object's background
+};
 
-//Tile map index
-const int TILE_SIZE = 64;
-const int MAX_MAP_X = 400;
-const int MAX_MAP_Y = 10;
-const int BLANK_TILE = 0;
+/**
+ * @brief Some static information about tile map
+ * 
+ */
+enum Tile_map
+{
+	TILE_SIZE = 64,
+	MAX_MAP_X = 400,
+	MAX_MAP_Y = 10,
+	BLANK_TILE = 0,
+};
 
-//Main object
-const int JUMP_VAL = 45;
-const int GRAVITY = 5;
-const int MAX_SPEED = 10;
-const int MOVING_SPEED = 10;
-const int FRAMES = 8;
+/**
+ * @brief Some static information about main object
+ * 
+ */
+enum Main
+{
+	JUMP_VAL = 45,
+	GRAVITY = 5,
+	MAX_SPEED = 10,
+	MOVING_SPEED = 10,
+	FRAMES = 8,
+};
 
-//Suport stuff
-const int STATE_SP = 4;
+/**
+ * @brief Some static information about support stuff
+ * 
+ */
+enum Support
+{
+	STATE_SP = 4,
+};
 
-//Variable will be used to handle input
+/**
+ * @brief Variable will be used to handle input
+ * 
+ */
 typedef struct Input
 {
 	int left_;
@@ -57,7 +84,10 @@ typedef struct Input
 	int jump_;
 };
 
-//Variable will be used for tile map
+/**
+ * @brief Variable will be used for tile map
+ * 
+ */
 typedef struct Map
 {
 	int start_x_;

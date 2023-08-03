@@ -4,6 +4,11 @@
 
 #include "CommonFunction.h"
 
+/**
+ * @brief New data type: BaseObject
+ * 
+ * @note Base for every object
+ */
 class BaseObject
 {
 protected:
@@ -15,40 +20,38 @@ public:
 	~BaseObject();
 
 	/**
-	Set the size of the object
-	*/
+	 * @brief Set the Rect object
+	 * 
+	 * @param x 
+	 * @param y 
+	 */
 	void SetRect(const int& x, const int& y) {
 		rect_.x = x;
 		rect_.y = y;
 	}
 
 	/**
-	Get the size of the object
-	*/
+	 * @brief Get the Rect object
+	 * 
+	 * @return SDL_Rect 
+	 */
 	SDL_Rect GetRect() const {
 		return rect_;
 	}
 
 	/**
-	Get the object
-	*/
+	 * @brief Get the Object object
+	 * 
+	 * @return SDL_Texture* 
+	 */
 	SDL_Texture* GetObject() {
 		return p_object_;
 	}
 
-	/**
-	Show the object on the screen, also check if it is loaded successfully
-	*/
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 
-	/**
-	Load the image on the background
-	*/
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 
-	/**
-	Free all the memory saved
-	*/
 	void Free();
 };
 

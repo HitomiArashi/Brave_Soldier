@@ -1,8 +1,12 @@
 #include "game_map.h"
 
 /**
-Read info in the file contain map
-*/
+ * @brief Read info in the file contain map
+ * 
+ * @param name 
+ * @return true 
+ * @return false 
+ */
 bool GameMap::LoadMap(const char* name)
 {
 	FILE* fp = NULL; //Point to the file
@@ -49,8 +53,10 @@ bool GameMap::LoadMap(const char* name)
 }
 
 /**
-Load the image of the tile map
-*/
+ * @brief Load the image of the tile map
+ * 
+ * @param screen 
+ */
 void GameMap::LoadTiles(SDL_Renderer *screen)
 {
 	char file_img[30]; //Image for each index type
@@ -73,8 +79,10 @@ void GameMap::LoadTiles(SDL_Renderer *screen)
 }
 
 /**
-Fill the image at each tile map
-*/
+ * @brief Fill the image at each tile map
+ * 
+ * @param screen 
+ */
 void GameMap::DrawMap(SDL_Renderer *screen)
 {
 	//Limit to show the img

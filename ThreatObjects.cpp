@@ -1,5 +1,9 @@
 #include "ThreatObject.h"
 
+/**
+ * @brief Construct a new Threats Object:: Threats Object object
+ * 
+ */
 ThreatsObject::ThreatsObject()
 {
     width_frame_ = 0;
@@ -12,11 +16,24 @@ ThreatsObject::ThreatsObject()
     come_back_time_ = 0;
     frame_ = 0;
 }
+
+/**
+ * @brief Destroy the Threats Object:: Threats Object object
+ * 
+ */
 ThreatsObject::~ThreatsObject()
 {
 
 }
 
+/**
+ * @brief Upload the object image
+ * 
+ * @param path 
+ * @param screen 
+ * @return true 
+ * @return false 
+ */
 bool ThreatsObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
     bool ret = BaseObject::LoadImg(path, screen);
@@ -29,6 +46,10 @@ bool ThreatsObject::LoadImg(std::string path, SDL_Renderer* screen)
     return ret;
 }
 
+/**
+ * @brief Set clip for object animation
+ * 
+ */
 void ThreatsObject::SetClip()
 {
 	if (width_frame_ > 0 && height_frame_ > 0)
@@ -44,6 +65,11 @@ void ThreatsObject::SetClip()
 	}
 }
 
+/**
+ * @brief Show object on the screen
+ * 
+ * @param des 
+ */
 void ThreatsObject::Show(SDL_Renderer* des)
 {
     if (come_back_time_ == 0)
@@ -59,6 +85,11 @@ void ThreatsObject::Show(SDL_Renderer* des)
     }
 }
 
+/**
+ * @brief Handle some special situation
+ * 
+ * @param gMap 
+ */
 void ThreatsObject::DoPlayer(Map& gMap)
 {
     if (come_back_time_ == 0)
@@ -93,6 +124,11 @@ void ThreatsObject::DoPlayer(Map& gMap)
     }
 }
 
+/**
+ * @brief Check the collision between object and map
+ * 
+ * @param gMap 
+ */
 void ThreatsObject::CheckColMap(Map& gMap)
 {
     int x1 = 0, x2 = 0; //Pos for corner of the part of screen to show
